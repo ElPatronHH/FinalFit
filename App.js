@@ -1,36 +1,21 @@
 import React from 'react';
 import { Image, Text, StyleSheet, View, ScrollView, TouchableOpacity, TextInput, Button, Alert } from 'react-native';
 import {BlurView} from 'expo-blur';
-
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './firebase-config';
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-
+import  HomeScreen  from './components/HomeScreen';
 
 const uri = 'https://ak.picdn.net/shutterstock/videos/1060308725/thumb/1.jpg'
 const profilePicture = 'https://randomuser.me/api/portraits/men/34.jpg'
-//const profilePicture = require('./assets/user.png');
-
-
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Bienvenido a la pantalla de inicio</Text>
-    </View>
-  );
-}
 
 function LoginScreen() {
-  
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const navigation = useNavigation();
-
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
@@ -48,14 +33,13 @@ function LoginScreen() {
     })
   }
 
-
   const handleSingIn = () => {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       console.log('Sesion iniciada!')
       const user = userCredential.user;
       console.log(user)
-      navigation.navigate('Pagina Principal');
+      navigation.navigate('HomeScreen');
     })
     .catch(error => {
       console.log(error)
@@ -63,7 +47,6 @@ function LoginScreen() {
     })
   }
  
-
   return (
     <View style={styles.container}>
       <Image source={{ uri }} style={[styles.image, StyleSheet.absoluteFill]}></Image>
@@ -96,20 +79,18 @@ function LoginScreen() {
             </TouchableOpacity>
           </View>
         </BlurView>
-
       </ScrollView>
     </View>
   );
 }
 
 const Stack = createNativeStackNavigator();
-
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Inicio de Sesion/Registro" component={LoginScreen}/>
-        <Stack.Screen name="Pagina Principal" component={HomeScreen}/>
+        <Stack.Screen name="HomeScreen" component={HomeScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
     //<LoginScreen/>
