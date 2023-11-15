@@ -1,10 +1,7 @@
 import React, { useState} from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  Button,
-} from "react-native";
+import {Text, View, TextInput, Button} from "react-native";
+import { collection, addDoc } from 'firebase/firestore';
+import { firestore } from '../firebase-config';
 
 export default function HomeScreen() {
     const [nombreValue, setNombre] = useState("");
@@ -12,17 +9,23 @@ export default function HomeScreen() {
     const [fechaValue, setFecha] = useState("");
     const [data, setData] = useState([]);
 
-    const agregarDatos = () => {
-        const nuevoDato = {
-            nombre: nombreValue,
-            apellido: apellidoValue,
-            fecha: fechaValue
-        };
-        setData([...data, nuevoDato]);
-        setNombre("");
-        setApellido("");
-        setFecha("");
-    };
+    const agregarDatos = async () => {
+      try {
+          const nuevoDato = {
+              nombre: nombreValue,
+              apellido: apellidoValue,
+              fecha: fechaValue
+          };
+          const docRef = await addDoc(collection(firestore, 'users'), nuevoDato);
+          console.log('Documento creado con ID: ', docRef.id);
+          setData([...data, nuevoDato]);
+          setNombre("");
+          setApellido("");
+          setFecha("");
+      } catch (error) {
+          console.error('Error al agregar datos a Firebase: ', error);
+      }
+  };
 
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -33,16 +36,16 @@ export default function HomeScreen() {
             placeholder="Escribe algo..."
           />
           <TextInput
-            onChangeText={(text) => setNombre(text)}
+            onChangeText={(text) => setApellido(text)}
             value={apellidoValue}
             placeholder="Escribe algo..."
           />
           <TextInput
-            onChangeText={(text) => setNombre(text)}
+            onChangeText={(text) => setFecha(text)}
             value={fechaValue}
             placeholder="Escribe algo..."
           />
-          <Button/>
+          <Button title="Cargar" onPress={agregarDatos} />
       </View>
     );
   }
