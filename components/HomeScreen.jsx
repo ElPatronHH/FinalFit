@@ -33,17 +33,17 @@ export default function HomeScreen() {
           <TextInput
             onChangeText={(text) => setNombre(text)}
             value={nombreValue}
-            placeholder="Escribe algo..."
+            placeholder="Nombre..."
           />
           <TextInput
             onChangeText={(text) => setApellido(text)}
             value={apellidoValue}
-            placeholder="Escribe algo..."
+            placeholder="Apellido..."
           />
           <TextInput
             onChangeText={(text) => setFecha(text)}
             value={fechaValue}
-            placeholder="Escribe algo..."
+            placeholder="Fecha..."
           />
           <Button title="Cargar" onPress={agregarDatos} />
       </View>
