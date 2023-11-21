@@ -3,13 +3,13 @@ import {Text, View, TextInput, Button} from "react-native";
 import { collection, addDoc } from 'firebase/firestore';
 import { firestore } from '../firebase-config';
 
-export default function HomeScreen({ route, navigation }) {
-  const [nombreValue, setNombre] = useState("");
-  const [apellidoValue, setApellido] = useState("");
-  const [fechaValue, setFecha] = useState("");
-  const [data, setData] = useState([]);
+export default function ReadCRUD() {
+    const [nombreValue, setNombre] = useState("");
+    const [apellidoValue, setApellido] = useState("");
+    const [fechaValue, setFecha] = useState("");
+    const [data, setData] = useState([]);
 
-  const agregarDatos = async () => {
+    const agregarDatos = async () => {
       try {
           const nuevoDato = {
               nombre: nombreValue,
@@ -27,26 +27,25 @@ export default function HomeScreen({ route, navigation }) {
       }
   };
 
-  return (
+    return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Bienvenido a la pantalla de inicio</Text>
+          <Text>CRUD Read</Text>
           <TextInput
-              onChangeText={(text) => setNombre(text)}
-              value={nombreValue}
-              placeholder="Nombre..."
+            onChangeText={(text) => setNombre(text)}
+            value={nombreValue}
+            placeholder="Nombre..."
           />
           <TextInput
-              onChangeText={(text) => setApellido(text)}
-              value={apellidoValue}
-              placeholder="Apellido..."
+            onChangeText={(text) => setApellido(text)}
+            value={apellidoValue}
+            placeholder="Apellido..."
           />
           <TextInput
-              onChangeText={(text) => setFecha(text)}
-              value={fechaValue}
-              placeholder="Fecha..."
+            onChangeText={(text) => setFecha(text)}
+            value={fechaValue}
+            placeholder="Fecha..."
           />
           <Button title="Cargar" onPress={agregarDatos} />
-          <Button title="Read del CRUD" onPress={() => navigation.navigate('ReadCRUD')} />
       </View>
-  );
-}
+    );
+  }
