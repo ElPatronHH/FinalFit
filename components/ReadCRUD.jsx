@@ -2,50 +2,33 @@ import React, { useState} from "react";
 import {Text, View, TextInput, Button} from "react-native";
 import { collection, addDoc } from 'firebase/firestore';
 import { firestore } from '../firebase-config';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ReadCRUD() {
-    const [nombreValue, setNombre] = useState("");
-    const [apellidoValue, setApellido] = useState("");
-    const [fechaValue, setFecha] = useState("");
-    const [data, setData] = useState([]);
+  const UserListScreen = () => {
+    const [userNames, setUserNames] = useState([]);
+  
+    useEffect(() => {
+      const fetchUserNames = async () => {
+        try {
+          const usersCollection = await firestore().collection('users').get();
+          const names = usersCollection.docs.map((doc) => doc.data().nombre); // Ajusta 'nombre' al campo que almacena los nombres en tus documentos
+          setUserNames(names);
+        } catch (error) {
+          console.error('Error al obtener nombres de usuarios:', error);
+        }
+      };
+  
+      fetchUserNames();
+    }, []);
 
-    const agregarDatos = async () => {
-      try {
-          const nuevoDato = {
-              nombre: nombreValue,
-              apellido: apellidoValue,
-              fecha: fechaValue
-          };
-          const docRef = await addDoc(collection(firestore, 'users'), nuevoDato);
-          console.log('Documento creado con ID: ', docRef.id);
-          setData([...data, nuevoDato]);
-          setNombre("");
-          setApellido("");
-          setFecha("");
-      } catch (error) {
-          console.error('Error al agregar datos a Firebase: ', error);
-      }
-  };
+    const navigation = useNavigation();
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>CRUD Read</Text>
-          <TextInput
-            onChangeText={(text) => setNombre(text)}
-            value={nombreValue}
-            placeholder="Nombre..."
-          />
-          <TextInput
-            onChangeText={(text) => setApellido(text)}
-            value={apellidoValue}
-            placeholder="Apellido..."
-          />
-          <TextInput
-            onChangeText={(text) => setFecha(text)}
-            value={fechaValue}
-            placeholder="Fecha..."
-          />
-          <Button title="Cargar" onPress={agregarDatos} />
-      </View>
-    );
-  }
+      <View>
+      <Text>Lista de Nombres de Usuarios:</Text>
+      {userNames.map((name, index) => (
+        <Text key={index}>{name}</Text>
+      ))}
+    </View>
+  );}}

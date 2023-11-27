@@ -2,8 +2,10 @@ import React, { useState} from "react";
 import {Text, View, TextInput, Button} from "react-native";
 import { collection, addDoc } from 'firebase/firestore';
 import { firestore } from '../firebase-config';
+import { useNavigation } from '@react-navigation/native';
 
-export default function HomeScreen({ route, navigation }) {
+export default function HomeScreen() {
+  const navigation = useNavigation();
   const [nombreValue, setNombre] = useState("");
   const [apellidoValue, setApellido] = useState("");
   const [fechaValue, setFecha] = useState("");
@@ -46,7 +48,8 @@ export default function HomeScreen({ route, navigation }) {
               placeholder="Fecha..."
           />
           <Button title="Cargar" onPress={agregarDatos} />
-          <Button title="Read del CRUD" onPress={() => navigation.navigate('ReadCRUD')} />
-      </View>
+          <Button title="Read del CRUD" onPress={() =>
+            navigation.navigate('ReadCRUD')} />
+          </View>
   );
 }

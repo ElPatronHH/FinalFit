@@ -11,7 +11,7 @@ import  HomeScreen  from './components/HomeScreen';
 import ReadCRUD from './components/ReadCRUD';
 
 const uri = 'https://ak.picdn.net/shutterstock/videos/1060308725/thumb/1.jpg'
-const profilePicture = 'https://randomuser.me/api/portraits/men/34.jpg'
+const profilePicture = 'https://www.facebook.com/photo?fbid=5514950115259661&set=a.103591756395551'
 
 function LoginScreen() {
   const [email, setEmail] = React.useState('')
@@ -91,11 +91,10 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Inicio de Sesion/Registro" component={LoginScreen}/>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} initialParams={{ navigation: useNavigation() }}/>
+        <Stack.Screen name="HomeScreen" component={HomeScreen}/>
         <Stack.Screen name="ReadCRUD" component={ReadCRUD}/>
       </Stack.Navigator>
     </NavigationContainer>
-    //<LoginScreen/>
   );
 }
 
